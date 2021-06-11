@@ -23,7 +23,7 @@ public class SimpleAuthorRepository implements AuthorRepository {
     @Override
     public Author findByFullName(String name, String lastname) {
         for (int i = 0; i <= counter; counter++) {
-            if (authors[i].getName() == name && authors[i].getLastName() == lastname) {
+            if ((authors[i].getName().equals(name)) && (authors[i].getLastName().equals(lastname))) {
                 return authors[i];
             }
         }

@@ -23,21 +23,19 @@ public class SimpleSchoolBookRepository implements BookRepository<SchoolBook> {
         SchoolBook[] schoolBooks2 = new SchoolBook[0];
 
         for (int i = 0; i <= counterB; i++) {
-            if (schoolBooks[i].getName() == name) {
-                schoolBooks2[iTwo+1] = schoolBooks[i];
+            if (schoolBooks[i].getName().equals(name)) {
+                iTwo += 1;
+                schoolBooks2[iTwo] = schoolBooks[i];
             }
         }
-        if (schoolBooks2.length != 0) {
-            return schoolBooks2;
-        }
-        else return new SchoolBook[0];
+        return schoolBooks2;
     }
 
     @Override
     public boolean removeByName(String name) {
         int removing = 0;
         for (int i = 0; i <= counterB; i++) {
-            if (schoolBooks[i].getName() == name) {
+            if (schoolBooks[i].getName().equals(name)) {
                 schoolBooks = ArrayUtils.remove(schoolBooks, i);
                 removing = 1;
             }

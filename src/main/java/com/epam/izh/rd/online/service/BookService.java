@@ -2,6 +2,9 @@ package com.epam.izh.rd.online.service;
 
 import com.epam.izh.rd.online.entity.Author;
 import com.epam.izh.rd.online.entity.Book;
+import com.epam.izh.rd.online.entity.SchoolBook;
+import com.epam.izh.rd.online.repository.AuthorRepository;
+import com.epam.izh.rd.online.repository.BookRepository;
 
 /**
  * Интерфейс сервиса для выполнения бизнес логики при работе с книга и авторами и взаимодействием с
@@ -70,4 +73,60 @@ public interface BookService<T extends Book> {
      * Если такой книги не найдено, метод должен вернуть null.
      */
     Author findAuthorByBookName(String name);
+}
+
+class SimpleSchoolBookService implements BookService<SchoolBook> {
+    private BookRepository<SchoolBook> schoolBookBookRepository;
+    private AuthorService authorService;
+
+    public SimpleSchoolBookService() {
+    }
+
+    public SimpleSchoolBookService(BookRepository<SchoolBook> schoolBookBookRepository, AuthorService authorService) {
+        this.schoolBookBookRepository = schoolBookBookRepository;
+        this.authorService = authorService;
+    }
+
+    @Override
+    public boolean save(SchoolBook book) {
+        if (authorService.findByFullName(book.getAuthorName(), book.getAuthorLastName()) != null) {
+            schoolBookBookRepository.save(book);
+            return true;
+        }
+        else return false;
+    }
+
+    @Override
+    public SchoolBook[] findByName(String name) {
+        return schoolBookBookRepository.findByName(name);
+    }
+
+    @Override
+    public int getNumberOfBooksByName(String name) {
+        int numberOfBooks = 0;
+        numberOfBooks = schoolBookBookRepository.findByName(name).length;
+        return numberOfBooks;
+    }
+
+    @Override
+    public boolean removeByName(String name) {
+        return schoolBookBookRepository.removeByName(name);
+    }
+
+    @Override
+    public int count() {
+        return schoolBookBookRepository.count();
+    }
+
+    @Override
+    public Author findAuthorByBookName(String name) {
+        SchoolBook[] schoolBooks3 = new SchoolBook[0];
+        schoolBooks3 = schoolBookBookRepository.findByName(name);
+        if (schoolBooks3 != null) {
+            if (authorService.findByFullName(schoolBooks3[0].getAuthorName(), schoolBooks3[0].getAuthorLastName()) != null) {
+                return authorService.findByFullName(schoolBooks3[0].getAuthorName(), schoolBooks3[0].getAuthorLastName());
+            }
+        }
+        return null;
+    }
 }

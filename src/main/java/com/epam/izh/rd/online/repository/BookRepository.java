@@ -52,3 +52,4 @@ public interface BookRepository<T extends Book> {
      */
     int count();
 }
+

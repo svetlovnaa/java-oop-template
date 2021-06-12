@@ -49,12 +49,13 @@ public class SimpleSchoolBookService implements BookService<SchoolBook> {
 
     @Override
     public Author findAuthorByBookName(String name) {
-        SchoolBook[] schoolBooks3 = new SchoolBook[0];
-        schoolBooks3 = schoolBookBookRepository.findByName(name);
-        if (schoolBooks3 != null) {
-            if (authorService.findByFullName(schoolBooks3[0].getAuthorName(), schoolBooks3[0].getAuthorLastName()) != null) {
-                return authorService.findByFullName(schoolBooks3[0].getAuthorName(), schoolBooks3[0].getAuthorLastName());
-            }
+        SchoolBook[] schoolBooks3 = new SchoolBook[schoolBookBookRepository.count()];
+        schoolBooks3 = findByName(name);
+
+        for (int i = 0; i < schoolBookBookRepository.count(); i++) {
+             if (authorService.findByFullName(schoolBooks3[i].getAuthorName(),schoolBooks3[i].getAuthorLastName()) != null) {
+                 return authorService.findByFullName(schoolBooks3[i].getAuthorName(),schoolBooks3[i].getAuthorLastName());
+             };
         }
         return null;
     }

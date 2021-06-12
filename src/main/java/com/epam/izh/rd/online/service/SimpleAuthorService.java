@@ -15,8 +15,8 @@ public class SimpleAuthorService implements AuthorService {
 
     @Override
     public boolean save(Author author) {
-        authorRepository.save(author);
-        return true;
+        boolean s = authorRepository.save(author);
+        return s;
     }
 
     @Override
@@ -27,8 +27,7 @@ public class SimpleAuthorService implements AuthorService {
 
     @Override
     public boolean remove(Author author) {
-        authorRepository.remove(author);
-        return true;
+        return authorRepository.remove(author);
     }
 
     @Override
